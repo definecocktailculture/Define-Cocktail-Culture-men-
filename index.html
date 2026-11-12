@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEFINE - Cocktail Culture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0c0b0b;
+      --surface: #151313;
+      --surface-card: #1c1818;
+      --surface-hover: #242020;
+      --accent: #b07e86;
+      --accent-light: #d4a3aa;
+      --gold: #dfc194;
+      --text-main: #f5f2f0;
+      --text-muted: #a39b98;
+      --line: rgba(176, 126, 134, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px 20px;
+      background: linear-gradient(to bottom, #171313, var(--bg));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo-container {
+      max-width: 180px;
+      margin: 0 auto 15px;
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Category Navigation Sticky */
+    .category-nav {
+      display: flex;
+      gap: 10px;
+      padding: 15px 20px;
+      overflow-x: auto;
+      position: sticky;
+      top: 0;
+      background: rgba(12, 11, 11, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 50;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      scrollbar-width: none;
+    }
+    .category-nav::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    /* Container */
+    .menu-container {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .category-section {
+      margin-bottom: 35px;
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* Cards */
+    .menu-card {
+      background: var(--surface-card);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .menu-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--line);
+      transform: translateY(-2px);
+    }
+
+    .card-info {
+      flex: 1;
+      padding-right: 15px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title i {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .card-ingredients {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    .card-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* Search bar */
+    .search-container {
+      max-width: 700px;
+      margin: 20px auto 0;
+      padding: 0 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 12px 20px 12px 45px;
+      border-radius: 30px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-wrapper i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--surface-card);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .modal-price {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 15px;
+    }
+
+    .modal-story {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      font-style: italic;
+      background: rgba(255,255,255,0.02);
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      margin-top: 40px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="https://chatgpt.com/s/m_67cc7032-4740-800d-961f-2b5d4b58e723" alt="DEFINE Cocktail Culture Logo">
+    </div>
+    <div class="subtitle">Cocktail Culture • Menù Digitale</div>
+  </header>
+
+  <div class="search-container">
+    <div class="search-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" class="search-input" placeholder="Cerca cocktail o stuzzicheria..." oninput="filterMenu()">
+    </div>
+  </div>
+
+  <nav class="category-nav">
+    <button class="cat-btn active" onclick="setCategory('all', this)">Tutti</button>
+    <button class="cat-btn" onclick="setCategory('signature', this)">Signature</button>
+    <button class="cat-btn" onclick="setCategory('classici', this)">Classici</button>
+    <button class="cat-btn" onclick="setCategory('analcolici', this)">Analcolici</button>
+    <button class="cat-btn" onclick="setCategory('food', this)">Food</button>
+  </nav>
+
+  <main class="menu-container" id="menuContainer"></main>
+
+  <div class="no-results" id="noResults">
+    <p>Nessun risultato trovato per la ricerca.</p>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="itemModal" onclick="closeModalOutside(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h2 class="modal-title" id="modalName"></h2>
+      <div class="modal-price" id="modalPrice"></div>
+      <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 5px;">Ingredienti</div>
+      <div id="modalIngredients" style="color: var(--text-main); font-size: 1rem; margin-bottom: 15px;"></div>
+      <div class="modal-story" id="modalStory"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 DEFINE Cocktail Culture. Tutti i diritti riservati.</p>
+  </footer>
+
+  <script>
+    const menuData = [
+      {
+        category: "signature",
+        categoryName: "Define Signature Cocktails",
+        items: [
+          { name: "Negroni Meccanico", price: "€ 12.00", ingredients: "Gin, Vermouth Rosso, Bitter, Essenza di Ingranaggi.", story: "Una reinterpretazione industriale del classico italiano, caratterizzata da note legnose e un retrogusto affumicato unico." },
+          { name: "Mezcal Logic", price: "€ 13.00", ingredients: "Mezcal, Lime, Agave, Bitter al Cioccolato.", story: "Il perfetto bilanciamento tra l'anima terrosa del mezcal artigianale messicano e la morbidezza del cioccolato fondente." }
+        ]
+      },
+      {
+        category: "classici",
+        categoryName: "I Classici Intramontabili",
+        items: [
+          { name: "Old Fashioned", price: "€ 11.00", ingredients: "Bourbon, Zucchero, Angostura.", story: "Il re dei miscelati storici. Semplice, potente e fedele alla ricetta originale dei primi del Novecento." },
+          { name: "Mojito", price: "€ 10.00", ingredients: "Rum Bianco, Menta fresca, Lime, Zucchero di canna, Soda.", story: "Pestato rigorosamente a mano con foglie di menta fresca cubana per garantire un profilo aromatico inconfondibile." }
+        ]
+      },
+      {
+        category: "analcolici",
+        categoryName: "Cocktail Analcolici",
+        items: [
+          { name: "Tropical Machine", price: "€ 8.00", ingredients: "Succo di Mango, Maracuja, Lime, Ginger Beer.", story: "Un viaggio esotico e frizzante, pensato per chi cerca una ventata di freschezza senza compromessi sul gusto." }
+        ]
+      },
+      {
+        category: "food",
+        categoryName: "Food & Snacks",
+        items: [
+          { name: "Tagliere Define", price: "€ 15.00", ingredients: "Selezione di salumi e formaggi locali stagionati, miele e crostini.", story: "Stuzzicheria d'eccellenza pensata appositamente per esaltare le note speziate e amare dei nostri cocktail." },
+          { name: "Polpette con Provola Affumicata", price: "€ 8.00", ingredients: "Polpette artigianali di carne con cuore filante di provola affumicata.", story: "Un classico comfort food croccante fuori e con un cuore di formaggio filante irresistibile." }
+        ]
+      }
+    ];
+
+    let currentCategory = 'all';
+
+    function renderMenu(data) {
+      const container = document.getElementById('menuContainer');
+      const noResults = document.getElementById('noResults');
+      container.innerHTML = '';
+
+      if (data.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+      noResults.style.display = 'none';
+
+      data.forEach(section => {
+        let html = `<div class="category-section"><h2 class="category-title">${section.categoryName}</h2>`;
+        section.items.forEach(item => {
+          const stringified = JSON.stringify(item).replace(/"/g, '&quot;');
+          html += `
+            <div class="menu-card" onclick="openModal(${stringified})">
+              <div class="card-info">
+                <div class="card-title">${item.name} <i class="fa-solid fa-chevron-right"></i></div>
+                <div class="card-ingredients">${item.ingredients}</div>
+              </div>
+              <div class="card-price">${item.price}</div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        container.innerHTML += html;
+      });
+    }
+
+    function setCategory(cat, element) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      element.classList.add('active');
+      document.getElementById('searchInput').value = '';
+      filterMenu();
+    }
+
+    function filterMenu() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = menuData.map(sec => {
+        if (currentCategory !== 'all' && sec.category !== currentCategory) return null;
+        const matchingItems = sec.items.filter(i => i.name.toLowerCase().includes(query) || i.ingredients.toLowerCase().includes(query));
+        if (matchingItems.length > 0) {
+          return { ...sec, items: matchingItems };
+        }
+        return null;
+      }).filter(Boolean);
+
+      renderMenu(filtered);
+    }
+
+    function openModal(item) {
+      document.getElementById('modalName').innerText = item.name;
+      document.getElementById('modalPrice').innerText = item.price;
+      document.getElementById('modalIngredients').innerText = item.ingredients;
+      document.getElementById('modalStory').innerText = item.story;
+      document.getElementById('itemModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('itemModal').style.display = 'none';
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('itemModal')) closeModal();
+    }
+
+    renderMenu(menuData);
+  </script>
+</body>
+</html>
